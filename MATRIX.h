@@ -21,6 +21,8 @@ class Matrix {
 
     //operation overloads
     T operator()(int r,int c);
+    void operator*=(T scalar);
+    void operator+=(T scalar);
 };
 
 template <class T>
@@ -42,7 +44,7 @@ class KroneckerProduct: public Matrix<T> {
     T *rightMatrix;
     KroneckerProduct(Matrix<T> &A, Matrix<T> &B);
     //operation overloads
-    T operator()(int r,int c);
+
 };
 
 

@@ -24,7 +24,21 @@ template <typename T>
 T Matrix<T>::operator()(int r, int c) {
     return elements[r*numCols + c];
 }
+template <typename T>
+void Matrix<T>::operator*=(T scalar) {
+  int matrixSize = numRows * numCols;
+  for (int i=0; i<matrixSize; ++i) {
+    elements[i] *= scalar;
+  }
+}
 
+template <typename T>
+void Matrix<T>::operator+=(T scalar) {
+  int matrixSize = numRows * numCols;
+  for (int i=0; i<matrixSize; ++i) {
+    elements[i] += scalar;
+  }
+}
 
 template <typename T>
 void Matrix<T>::setDim(int r, int c) {
@@ -68,7 +82,6 @@ void Matrix<T>::print() {
 
 template <typename T>
 IdentityMatrix<T>::IdentityMatrix(int size):Matrix<T>(size,size) {
-  cout<<"I"<<endl;
   for (int i=0; i<size; ++i) {
     this->elements[i*size + i] = 1;
   }
@@ -92,13 +105,18 @@ KroneckerProduct<T>::KroneckerProduct(Matrix<T> &A, Matrix<T> &B):Matrix<T>() {
   A.getDim(dimA);
   B.getDim(dimB);
   int ar,ac,br,bc;
-  rowK =0;
-  colK = 0;
+  int rowK =0;
+  int colK = 0;
+  int count = 0;
+
   this->setDim(dimA[0]*dimB[0], dimA[1]*dimB[1]);
   for (int rowA=0; rowA<dimA[0]; ++rowA) {
-    for (int colA=0; colA<dimA[1]; ++colA) {
-
-
+    for (int rowB=0; rowB<dimB[0]; ++rowB) {
+      for (int colA=0; colA<dimA[1]; ++colA) {
+        for (int colB=0; colB<dimB[1]; ++colB) {
+          this->elements[count++] = A(rowA,colA)*B(rowB,colB);
+        }
+      }
     }
   }
   //   for (int c=0; c<this->numCols; ++c) {
