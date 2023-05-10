@@ -100,34 +100,23 @@ RandomMatrix<T>::RandomMatrix(int size, T lowerBound, T upperBound):Matrix<T>(si
 
 template <typename T>
 KroneckerProduct<T>::KroneckerProduct(Matrix<T> &A, Matrix<T> &B):Matrix<T>() {
-  int dimA[2];
-  int dimB[2];
-  A.getDim(dimA);
-  B.getDim(dimB);
-  int ar,ac,br,bc;
-  int rowK =0;
-  int colK = 0;
-  int count = 0;
-
-  this->setDim(dimA[0]*dimB[0], dimA[1]*dimB[1]);
-  for (int rowA=0; rowA<dimA[0]; ++rowA) {
-    for (int rowB=0; rowB<dimB[0]; ++rowB) {
-      for (int colA=0; colA<dimA[1]; ++colA) {
-        for (int colB=0; colB<dimB[1]; ++colB) {
-          this->elements[count++] = A(rowA,colA)*B(rowB,colB);
-        }
-      }
-    }
-  }
-  //   for (int c=0; c<this->numCols; ++c) {
-  //     ar = (((r+1)%dimB[0]) ? (r+1)/dimB[0] : ((r+1)/dimB[0]) + 1) - 1;
-  //     ac = (((c+1)%dimB[1]) ? (c+1)/dimB[0] : ((c+1)/dimB[0]) + 1) - 1;
-  //     br = r % dimB[0];
-  //     bc = c % dimB[1];
-  //     this->elements[r*(this->numCols) + c] = A(ar,ac) * B(br,bc);
-  //   }
-  // }
-}
+  int dimA[2]; //array to hold num of rows and cols for matrix A.
+  int dimB[2]; //array to hold num of rows and cols for matrix A.
+  A.getDim(dimA); //get the dims for matrix A and populate dim variable
+  B.getDim(dimB); //get the dims for matrix B and populate dim variable
+  int position = 0; //current position for new matrix element entry.
+  this->setDim(dimA[0]*dimB[0], dimA[1]*dimB[1]); //set new dims for kron prod
+  //for loops below outline how a kronecker product can be populated.
+  for (int rowA=0; rowA<dimA[0]; ++rowA) { //iterate through rows of A
+    for (int rowB=0; rowB<dimB[0]; ++rowB) { //iterate through rows of B
+      for (int colA=0; colA<dimA[1]; ++colA) { //iterate through cols of A
+        for (int colB=0; colB<dimB[1]; ++colB) { //iterate through cols of B
+          this->elements[position++] = A(rowA,colA)*B(rowB,colB); //set element
+        } //close for loop colB
+      } //close for loop colA
+    } //close for loop for rowB
+  } //close for loop for rowA
+} //close KroneckerProduct constructor
 
 
 

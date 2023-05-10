@@ -40,8 +40,6 @@ class RandomMatrix: public Matrix<T> {
 template <class T>
 class KroneckerProduct: public Matrix<T> {
    public:
-    T *leftMatrix;
-    T *rightMatrix;
     KroneckerProduct(Matrix<T> &A, Matrix<T> &B);
     //operation overloads
 
